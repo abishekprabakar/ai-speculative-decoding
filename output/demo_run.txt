@@ -1,0 +1,42 @@
+vocab: 27 chars    held-out: 11180 chars
+held-out perplexity  target (5-gram): 1.935   draft (bigram): 7.666
+
+sample (gamma=4, T=1.0):
+  the clever robot always runs. ever watchilgfollows a cat with thisloriver this river drave garden. a sailor s a rinks near the fathes this red chine red painter machis lazy stud
+  98 target passes for 160 chars (1.63 chars per pass)
+
+temperature 1.0   (cost model: draft pass = 0.05 target pass)
+ gamma  accept  mean_alpha  tok/iter  pred(alpha)  target_calls  speedup  pred_speedup
+     0       -           -     1.000        1.000          4000    1.00x         1.00x
+     1   0.423       0.438     1.423        1.438          2811    1.36x         1.37x
+     2   0.454       0.456     1.649        1.665          2426    1.50x         1.51x
+     3   0.459       0.457     1.759        1.761          2275    1.53x         1.53x
+     4   0.448       0.450     1.772        1.784          2258    1.48x         1.49x
+     6   0.459       0.451     1.832        1.816          2184    1.41x         1.40x
+     8   0.452       0.453     1.820        1.827          2200    1.30x         1.31x
+
+temperature 0.7   (cost model: draft pass = 0.05 target pass)
+ gamma  accept  mean_alpha  tok/iter  pred(alpha)  target_calls  speedup  pred_speedup
+     0       -           -     1.000        1.000          4000    1.00x         1.00x
+     1   0.389       0.396     1.389        1.396          2879    1.32x         1.33x
+     2   0.403       0.413     1.565        1.584          2557    1.42x         1.44x
+     3   0.419       0.407     1.669        1.640          2396    1.45x         1.43x
+     4   0.411       0.410     1.677        1.674          2385    1.40x         1.40x
+     6   0.392       0.407     1.644        1.684          2435    1.26x         1.30x
+     8   0.405       0.403     1.681        1.675          2380    1.20x         1.20x
+
+draft quality vs acceptance (gamma=4, T=1.0):
+ draft          held-out ppl  mean_alpha  tok/iter  target_calls  speedup
+ 1-gram              18.046       0.273     1.365          2931    1.14x
+ 2-gram               7.666       0.449     1.785          2242    1.49x
+ 3-gram               3.369       0.711     2.842          1408    2.37x
+ 4-gram               2.298       0.897     4.015           997    3.34x
+
+greedy (T=0), 400 chars, gamma=6:
+  identical to target-only greedy decode: True
+  target passes: 400 autoregressive vs 251 speculative  (acceptance 0.372)
+
+closed-form optimal gamma at c = 0.05:
+  alpha=0.30->2  alpha=0.50->3  alpha=0.70->6  alpha=0.80->8  alpha=0.90->13  alpha=0.95->21
+
+wrote output/gamma_sweep.png
